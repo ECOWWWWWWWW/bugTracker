@@ -23,10 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('dashboard') }}">
-                    <span data-feather="check-circle"></span>
-                    {{ config('app.name', 'Bug Tracker') }}
-                </a>
+                <h1 class="navbar-brand">ZeroBugz</h1>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -74,9 +71,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('profile.edit') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('profile-edit-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                         {{ __('Profile') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -85,9 +80,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="profile-edit-form" action="{{ route('profile.edit') }}" method="GET" class="d-none">
-                                        @csrf
-                                    </form>
+                                  
                                     
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

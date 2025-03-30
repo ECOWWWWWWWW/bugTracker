@@ -53,13 +53,14 @@
                                         <i data-feather="alert-circle"></i>
                                     </div>
                                     <div class="stats-card__content">
-                                        <h3 class="stats-card__title">{{ $totalBugs ?? 0 }}</h3>
+                                        <h3 class="stats-card__title">{{ $totalBugs }}</h3>
                                         <p class="stats-card__description">Total Bugs</p>
                                     </div>
                                     <div class="stats-card__chart">
                                         <div class="stats-card__trend">
-                                            <i data-feather="trending-up" class="text-success"></i>
-                                            <span>{{ $bugsTrend ?? '0%' }}</span>
+                                            <i data-feather="{{ substr($bugsTrend, 0, 1) == '-' ? 'trending-down' : 'trending-up' }}" 
+                                               class="{{ substr($bugsTrend, 0, 1) == '-' ? 'text-success' : 'text-danger' }}"></i>
+                                            <span>{{ $bugsTrend }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -72,17 +73,17 @@
                                         <i data-feather="clock"></i>
                                     </div>
                                     <div class="stats-card__content">
-                                        <h3 class="stats-card__title">{{ $openBugs ?? 0 }}</h3>
+                                        <h3 class="stats-card__title">{{ $openBugs }}</h3>
                                         <p class="stats-card__description">Open Bugs</p>
                                     </div>
                                     <div class="stats-card__chart">
                                         <div class="stats-card__progress">
                                             <div class="progress">
                                                 <div class="progress-bar bg-info" role="progressbar" 
-                                                     style="width: {{ $openBugsPercent ?? 0 }}%" 
-                                                     aria-valuenow="{{ $openBugsPercent ?? 0 }}" 
+                                                     style="width: {{ $openBugsPercent }}%" 
+                                                     aria-valuenow="{{ $openBugsPercent }}" 
                                                      aria-valuemin="0" aria-valuemax="100">
-                                                    {{ $openBugsPercent ?? 0 }}%
+                                                    {{ $openBugsPercent }}%
                                                 </div>
                                             </div>
                                         </div>
@@ -97,17 +98,17 @@
                                         <i data-feather="check-circle"></i>
                                     </div>
                                     <div class="stats-card__content">
-                                        <h3 class="stats-card__title">{{ $resolvedBugs ?? 0 }}</h3>
+                                        <h3 class="stats-card__title">{{ $resolvedBugs }}</h3>
                                         <p class="stats-card__description">Resolved Bugs</p>
                                     </div>
                                     <div class="stats-card__chart">
                                         <div class="stats-card__progress">
                                             <div class="progress">
                                                 <div class="progress-bar bg-success" role="progressbar" 
-                                                     style="width: {{ $resolvedBugsPercent ?? 0 }}%" 
-                                                     aria-valuenow="{{ $resolvedBugsPercent ?? 0 }}" 
+                                                     style="width: {{ $resolvedBugsPercent }}%" 
+                                                     aria-valuenow="{{ $resolvedBugsPercent }}" 
                                                      aria-valuemin="0" aria-valuemax="100">
-                                                    {{ $resolvedBugsPercent ?? 0 }}%
+                                                    {{ $resolvedBugsPercent }}%
                                                 </div>
                                             </div>
                                         </div>
@@ -154,14 +155,14 @@
                                         Recent Activity
                                     </div>
                                     <div class="card-body">
-                                        @if(isset($recentBugs) && count($recentBugs) > 0)
+                                        @if(count($recentBugs) > 0)
                                             <div class="activity-timeline">
                                                 @foreach($recentBugs as $bug)
                                                     <div class="activity-item">
                                                         <div class="activity-item__icon">
                                                             @if($bug->status == 'open')
                                                                 <i data-feather="alert-circle"></i>
-                                                            @elseif($bug->status == 'in progress')
+                                                            @elseif($bug->status == 'in_progress')
                                                                 <i data-feather="clock"></i>
                                                             @else
                                                                 <i data-feather="check-circle"></i>
@@ -171,7 +172,7 @@
                                                             <div class="activity-item__date">{{ $bug->updated_at->diffForHumans() }}</div>
                                                             <div class="activity-item__title">
                                                                 <a href="{{ route('bugs.edit', $bug->id) }}">{{ $bug->title }}</a>
-                                                                <span class="badge badge-{{ strtolower($bug->priority) }} ms-2">{{ ucfirst($bug->priority) }}</span>
+                                                                <span class="badge bg-{{ strtolower($bug->priority) }} ms-2">{{ ucfirst($bug->priority) }}</span>
                                                             </div>
                                                             <div class="activity-item__description">
                                                                 {{ Str::limit($bug->description, 100) }}
@@ -279,7 +280,7 @@
     }
     
     .progress {
-        height: 6px;
+        height: 15px;
         border-radius: 3px;
         background-color: #f0f0f0;
     }
@@ -362,6 +363,40 @@
         font-size: 0.9rem;
         color: var(--light-text);
     }
+    
+    /* Badge styles for priority */
+    .badge.bg-low {
+        background-color: #a8d5ba;
+        color: #2c6a4a;
+    }
+    
+    .badge.bg-medium {
+        background-color: #f8e3a3;
+        color: #8a6d3b;
+    }
+    
+    .badge.bg-high {
+        background-color: #f3c6c3;
+        color: #8a4240;
+    }
+    
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 2rem 0;
+    }
+    
+    .empty-state__icon {
+        font-size: 3rem;
+        color: var(--light-text);
+        margin-bottom: 1rem;
+    }
+    
+    .empty-state__message {
+        color: var(--light-text);
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
 </style>
 @endsection
 
@@ -376,6 +411,11 @@
             
             // Initialize charts
             initializeCharts();
+            
+            // Initialize Feather icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
         }, 800);
         
         function initializeCharts() {
@@ -383,7 +423,7 @@
             const priorityData = {
                 labels: ['Low', 'Medium', 'High'],
                 datasets: [{
-                    data: [{{ $priorityLow ?? 0 }}, {{ $priorityMedium ?? 0 }}, {{ $priorityHigh ?? 0 }}],
+                    data: [{{ $priorityLow }}, {{ $priorityMedium }}, {{ $priorityHigh }}],
                     backgroundColor: ['#a8d5ba', '#f8e3a3', '#f3c6c3'],
                     borderWidth: 0
                 }]
@@ -393,7 +433,7 @@
             const statusData = {
                 labels: ['Open', 'In Progress', 'Resolved'],
                 datasets: [{
-                    data: [{{ $statusOpen ?? 0 }}, {{ $statusInProgress ?? 0 }}, {{ $statusResolved ?? 0 }}],
+                    data: [{{ $statusOpen }}, {{ $statusInProgress }}, {{ $statusResolved }}],
                     backgroundColor: ['#d1ecf1', '#e2e3ff', '#d4edda'],
                     borderWidth: 0
                 }]
@@ -417,6 +457,16 @@
                                 },
                                 padding: 20
                             }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const value = context.raw;
+                                    const percentage = total ? Math.round((value / total) * 100) : 0;
+                                    return `${context.label}: ${value} (${percentage}%)`;
+                                }
+                            }
                         }
                     },
                     animation: {
@@ -433,7 +483,7 @@
                     labels: ['Open', 'In Progress', 'Resolved'],
                     datasets: [{
                         label: 'Bug Status',
-                        data: [{{ $statusOpen ?? 0 }}, {{ $statusInProgress ?? 0 }}, {{ $statusResolved ?? 0 }}],
+                        data: [{{ $statusOpen }}, {{ $statusInProgress }}, {{ $statusResolved }}],
                         backgroundColor: ['#d1ecf1', '#e2e3ff', '#d4edda'],
                         borderWidth: 0,
                         borderRadius: 8,
@@ -446,6 +496,16 @@
                     plugins: {
                         legend: {
                             display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const value = context.raw;
+                                    const percentage = total ? Math.round((value / total) * 100) : 0;
+                                    return `${context.label}: ${value} (${percentage}%)`;
+                                }
+                            }
                         }
                     },
                     scales: {

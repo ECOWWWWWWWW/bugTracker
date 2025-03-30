@@ -192,6 +192,7 @@ label {
     font-weight: 600;
     color: var(--primary-color);
     font-size: 1.25rem;
+    cursor:pointer;
 }
 
 .nav-link {
@@ -502,3 +503,4 @@ label {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
 }
+
