@@ -1,6 +1,26 @@
 // Calm UI Animations and Interactions
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Handle loading skeleton animations
+    const skeletonLoaders = document.querySelectorAll('.skeleton-loader');
+    skeletonLoaders.forEach(loader => {
+        loader.classList.add('shimmer');
+    });
+    
+    // Automatically hide loading skeletons after a delay
+    const loadingViews = document.querySelectorAll('#loading-view');
+    const contentViews = document.querySelectorAll('#content-view');
+    
+    if (loadingViews.length > 0 && contentViews.length > 0) {
+        setTimeout(() => {
+            loadingViews.forEach(view => {
+                view.style.display = 'none';
+            });
+            contentViews.forEach(view => {
+                view.style.display = 'block';
+            });
+        }, 800); // Adjust delay time as needed
+    }
     // Add fade-in animation to cards
     const cards = document.querySelectorAll('.card, .bug-card');
     cards.forEach(card => {

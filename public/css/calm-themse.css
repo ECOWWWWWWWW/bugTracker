@@ -389,3 +389,116 @@ label {
     visibility: visible;
     opacity: 1;
 }
+
+
+/* Skeleton loading */
+.skeleton-loader {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+}
+.skeleton-loader::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.5) 60%,
+        rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+.skeleton-loader.text {
+    height: 1.2rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    background-color: #e9ecef;
+}
+.skeleton-loader.title {
+    height: 1.5rem;
+    margin-bottom: 1rem;
+    width: 70%;
+    background-color: #e9ecef;
+}
+.skeleton-loader.card {
+    height: 200px;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    background-color: #f5f7fa;
+}
+.skeleton-loader.badge {
+    height: 1.5rem;
+    width: 80px;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    background-color: #e9ecef;
+    display: inline-block;
+    margin-right: 10px;
+}
+.skeleton-loader.button {
+    height: 2.5rem;
+    width: 120px;
+    border-radius: 8px;
+    background-color: #e9ecef;
+    display: inline-block;
+}
+.skeleton-loader.circle {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: inline-block;
+}
+.skeleton-loader.avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: inline-block;
+    margin-right: 10px;
+}
+.skeleton-item {
+    height: 1.2rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    background-color: #e9ecef;
+    border-radius: 4px;
+}
+.skeleton-item:nth-child(even) {
+    width: 90%;
+}
+.skeleton-item:nth-child(3n) {
+    width: 80%;
+}
+.skeleton-item:last-child {
+    margin-bottom: 0;
+}
+.skeleton-table-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+.skeleton-table-cell {
+    flex: 1;
+    height: 1.2rem;
+    background-color: #e9ecef;
+    margin-right: 0.5rem;
+    border-radius: 4px;
+}
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}

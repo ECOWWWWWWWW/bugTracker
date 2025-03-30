@@ -35,80 +35,96 @@
                         </div>
                     </div>
 
-                    @if($bugs->isEmpty())
-                        <div class="empty-state">
-                            <div class="empty-state__icon">
-                                <i data-feather="check-circle"></i>
-                            </div>
-                            <p class="empty-state__message">No bugs reported yet. Enjoy the calm!</p>
-                            <a href="{{ route('bugs.create') }}" class="btn btn-primary">Report First Bug</a>
+                    <!-- Loading State -->
+                    <div id="loading-view">
+                        <!-- List View Loading State -->
+                        <div id="list-loading">
+                            @include('components.skeleton-bug-table', ['rows' => 5])
                         </div>
-                    @else
-                        <!-- List View -->
-                        <div id="list-view">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th width="20%">Title</th>
-                                            <th width="25%">Description</th>
-                                            <th width="10%">Priority</th>
-                                            <th width="10%">Status</th>
-                                            <th width="15%">Reported By</th>
-                                            <th width="20%">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($bugs as $bug)
-                                            <tr>
-                                                <td>{{ $bug->title }}</td>
-                                                <td>{{ Str::limit($bug->description, 50) }}</td>
-                                                <td>
-                                                    <span class="badge badge-{{ strtolower($bug->priority) }}">
-                                                        {{ ucfirst($bug->priority) }}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-{{ str_replace(' ', '-', strtolower($bug->status)) }}">
-                                                        {{ ucfirst($bug->status) }}
-                                                    </span>
-                                                </td>
-                                                <td>{{ $bug->user->name }}</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="{{ route('bugs.edit', $bug->id) }}" class="btn btn-warning btn-sm me-2" title="Edit Bug">
-                                                            <i data-feather="edit-2" class="feather-sm"></i>
-                                                        </a>
-                                                        
-                                                        <form action="{{ route('bugs.destroy', $bug->id) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm" 
-                                                                    onclick="return confirm('Are you sure you want to delete this bug?')"
-                                                                    title="Delete Bug">
-                                                                <i data-feather="trash-2" class="feather-sm"></i>
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                        
+                        <!-- Grid View Loading State (hidden by default) -->
+                        <div id="grid-loading" style="display: none;">
+                            @include('components.skeleton-bug-grid', ['count' => 6])
+                        </div>
+                    </div>
+                    
+                    <!-- Content View (hidden initially, shown when loaded) -->
+                    <div id="content-view" style="display: none;">
+                        @if($bugs->isEmpty())
+                            <div class="empty-state">
+                                <div class="empty-state__icon">
+                                    <i data-feather="check-circle"></i>
+                                </div>
+                                <p class="empty-state__message">No bugs reported yet. Enjoy the calm!</p>
+                                <a href="{{ route('bugs.create') }}" class="btn btn-primary">Report First Bug</a>
                             </div>
+                            @else
+                            <!-- List View -->
+                            <div id="list-view">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Title</th>
+                                                <th width="25%">Description</th>
+                                                <th width="10%">Priority</th>
+                                                <th width="10%">Status</th>
+                                                <th width="15%">Reported By</th>
+                                                <th width="20%">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($bugs as $bug)
+                                                <tr>
+                                                    <td>{{ $bug->title }}</td>
+                                                    <td>{{ Str::limit($bug->description, 50) }}</td>
+                                                    <td>
+                                                        <span class="badge badge-{{ strtolower($bug->priority) }}">
+                                                            {{ ucfirst($bug->priority) }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-{{ str_replace(' ', '-', strtolower($bug->status)) }}">
+                                                            {{ ucfirst($bug->status) }}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ $bug->user->name }}</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <a href="{{ route('bugs.edit', $bug->id) }}" class="btn btn-warning btn-sm me-2" title="Edit Bug">
+                                                                <i data-feather="edit-2" class="feather-sm"></i>
+                                                            </a>
+                                                            
+                                                            <form action="{{ route('bugs.destroy', $bug->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger btn-sm" 
+                                                                        onclick="return confirm('Are you sure you want to delete this bug?')"
+                                                                        title="Delete Bug">
+                                                                    <i data-feather="trash-2" class="feather-sm"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                         </div>
 
-                        <!-- Grid View -->
-                        <div id="grid-view" style="display: none;">
-                            <div class="row">
-                                @foreach($bugs as $bug)
-                                    <div class="col-md-4 mb-4">
-                                        @include('components.bug-card', ['bug' => $bug])
-                                    </div>
-                                @endforeach
-                            </div>
+                       <!-- Grid View -->
+                       <div id="grid-view" style="display: none;">
+                        <div class="row">
+                            @foreach($bugs as $bug)
+                                <div class="col-md-4 mb-4">
+                                    @include('components.bug-card', ['bug' => $bug])
+                                </div>
+                            @endforeach
                         </div>
-                    @endif
+                            </div>
+                            @endif
+                        </div>
                 </div>
             </div>
         </div>
@@ -124,6 +140,49 @@
         tableIcons.forEach(icon => {
             icon.setAttribute('width', '16');
             icon.setAttribute('height', '16');
+        });
+
+        
+        // Simulated loading delay for demo purposes (remove in production)
+        setTimeout(() => {
+            // Hide loading state and show content
+            document.getElementById('loading-view').style.display = 'none';
+            document.getElementById('content-view').style.display = 'block';
+        }, 800);
+        
+        // Handle view toggle with loading states
+        const viewToggleButtons = document.querySelectorAll('.view-toggle .btn');
+        viewToggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Update button active states
+                viewToggleButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                const isListView = this.dataset.view === 'list';
+                
+                // First show loading state for the selected view
+                document.getElementById('list-loading').style.display = isListView ? 'block' : 'none';
+                document.getElementById('grid-loading').style.display = isListView ? 'none' : 'block';
+                
+                // Hide both content views during transition
+                document.getElementById('list-view').style.display = 'none';
+                document.getElementById('grid-view').style.display = 'none';
+                
+                // Show loading view
+                document.getElementById('loading-view').style.display = 'block';
+                document.getElementById('content-view').style.display = 'none';
+                
+                // Simulate loading delay
+                setTimeout(() => {
+                    // Hide loading view
+                    document.getElementById('loading-view').style.display = 'none';
+                    document.getElementById('content-view').style.display = 'block';
+                    
+                    // Show appropriate content view
+                    document.getElementById('list-view').style.display = isListView ? 'block' : 'none';
+                    document.getElementById('grid-view').style.display = isListView ? 'none' : 'block';
+                }, 400);
+            });
         });
     });
 </script>
