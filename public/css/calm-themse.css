@@ -1,0 +1,391 @@
+/* Calm Theme CSS - A minimalistic, calming design for the bug tracking application */
+
+:root {
+    /* Soft, calming color palette */
+    --primary-color: #7eb5a6; /* Soft teal */
+    --secondary-color: #c4d7e0; /* Light blue */
+    --accent-color: #f9f9f1; /* Off-white */
+    --text-color: #5a6978; /* Muted blue-gray */
+    --light-text: #929eae; /* Lighter text for secondary elements */
+    --success-color: #a8d5ba; /* Soft green */
+    --warning-color: #f8e3a3; /* Soft yellow */
+    --danger-color: #f3c6c3; /* Soft red */
+    --shadow-color: rgba(193, 205, 222, 0.3);
+    --card-bg: #ffffff;
+    --body-bg: #f5f7fa;
+    --hover-color: #dde5ed;
+}
+
+body {
+    background-color: var(--body-bg);
+    color: var(--text-color);
+    font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.container {
+    padding: 2rem 1.5rem;
+}
+
+/* Card styling */
+.card {
+    border: none;
+    border-radius: 12px;
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: 0 6px 15px var(--shadow-color);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Button styling */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s ease;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(126, 181, 166, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #6fa395;
+    transform: translateY(-1px);
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    color: #7d6e32;
+}
+
+.btn-warning:hover {
+    background-color: #f0db9a;
+    color: #7d6e32;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: #a05450;
+}
+
+.btn-danger:hover {
+    background-color: #edbab7;
+    color: #a05450;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* Table styling */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border-collapse: separate;
+    border-spacing: 0;
+    border: none;
+}
+
+.table th {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+}
+
+.table td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    border-top: 1px solid rgba(0, 0, 0, 0.03);
+    color: var(--text-color);
+}
+
+.table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover {
+    background-color: var(--hover-color);
+}
+
+/* Form styling */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #e0e6ed;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(126, 181, 166, 0.25);
+}
+
+label {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Alert styling */
+.alert {
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.alert-success {
+    background-color: var(--success-color);
+    color: #2c6a41;
+}
+
+/* Navigation styling */
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    padding: 0.75rem 1.5rem;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+.nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+/* Badge styling for priority and status */
+.badge {
+    padding: 0.5rem 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    font-size: 0.875rem;
+}
+
+.badge-low {
+    background-color: #d1e7dd;
+    color: #2c6a41;
+}
+
+.badge-medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge-high {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.badge-open {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-in-progress {
+    background-color: #e2e3ff;
+    color: #4142a0;
+}
+
+.badge-resolved {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Bug card styling for grid view */
+.bug-card {
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 3px 8px var(--shadow-color);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.bug-card:hover {
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transform: translateY(-3px);
+}
+
+.bug-card__title {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.bug-card__description {
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.bug-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.bug-card__meta-item {
+    font-size: 0.85rem;
+    color: var(--light-text);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .container {
+        padding: 1rem 0.75rem;
+    }
+    
+    .card-header {
+        padding: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem 1rem;
+    }
+    
+    .table th, .table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .btn {
+        padding: 0.4rem 1rem;
+    }
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--light-text);
+}
+
+.empty-state__icon {
+    color: var(--secondary-color);
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.empty-state__message {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+/* Switch between list and grid view */
+.view-toggle {
+    margin-bottom: 1.5rem;
+}
+
+.view-toggle .btn {
+    border-radius: 6px;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    padding: 0.4rem 0.9rem;
+}
+
+.view-toggle .btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tooltip styling */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

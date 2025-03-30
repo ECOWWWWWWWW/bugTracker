@@ -14,6 +14,7 @@ class BugController extends Controller
     {
         $bugs = Bug::where('user_id', auth()->id())->get();
         return view('bugs.index', compact('bugs'));
+        
     }
 
     public function create()
