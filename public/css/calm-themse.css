@@ -1,5 +1,3 @@
-/* Calm Theme CSS - A minimalistic, calming design for the bug tracking application */
-
 :root {
     /* Soft, calming color palette */
     --primary-color: #7eb5a6; /* Soft teal */
@@ -188,7 +186,7 @@ label {
     padding: 0.75rem 1.5rem;
 }
 
-.navbar-brand {
+h1.navbar-brand, .navbar-brand {
     font-weight: 600;
     color: var(--primary-color);
     font-size: 1.25rem;
