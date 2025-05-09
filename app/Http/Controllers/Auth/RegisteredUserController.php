@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Controller
 {
@@ -29,14 +30,22 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'birthdate' => ['required', 'date', 'before_or_equal:' . Carbon::now()->subYears(16)->toDateString()],
+            'phone_number' => ['required', 'regex:/^\d{10}$/'],
+            'address' => ['required', 'string', 'max:255'],
+            
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'birthdate' => $request->birthdate,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
