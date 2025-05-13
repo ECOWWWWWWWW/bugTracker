@@ -57,7 +57,7 @@
             border-radius: 4px;
         }
         .main a.button:hover {
-            background-color: #333;
+            background-color: #494949;
         }
         .main a.login{
             padding: .5rem;
@@ -65,7 +65,7 @@
             font-size: 13px;
         }
         .main a.login:hover{
-            color: #333
+            color: #c27979
         }
     </style>
 </head>
