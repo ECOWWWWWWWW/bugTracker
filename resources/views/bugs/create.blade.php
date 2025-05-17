@@ -56,7 +56,7 @@
                                     <select class="form-control" id="status" name="status" required>
                                         <option value="" disabled selected>Select status</option>
                                         <option value="open" {{ old('status') == 'open' ? 'selected' : '' }}>Open</option>
-                                        <option value="in progress" {{ old('status') == 'in progress' ? 'selected' : '' }}>In Progress</option>
+                                        <option value="in_progress" {{ old('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
                                         <option value="resolved" {{ old('status') == 'resolved' ? 'selected' : '' }}>Resolved</option>
                                     </select>
                                 </div>

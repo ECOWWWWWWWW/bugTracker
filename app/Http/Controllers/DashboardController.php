@@ -10,50 +10,47 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Get total bugs count
-        $totalBugs = Bug::count();
+        // Get bugs assigned to or created by current user
+        $userBugs = Bug::where('assigned_to', auth()->id())
+                       ->orWhere('user_id', auth()->id())
+                       ->get();
+
+        // Calculate statistics based on user's bugs
+        $totalBugs = $userBugs->count();
+        $openBugs = $userBugs->where('status', 'open')->count();
+        $resolvedBugs = $userBugs->where('status', 'resolved')->count();
         
-        // Get open bugs count and percentage
-        $openBugs = Bug::where('status', 'open')->count();
-        $openBugsPercent = $totalBugs > 0 ? round(($openBugs / $totalBugs) * 100, 1) : 0;
-        
-        // Get resolved bugs count and percentage
-        $resolvedBugs = Bug::where('status', 'resolved')->count();
-        $resolvedBugsPercent = $totalBugs > 0 ? round(($resolvedBugs / $totalBugs) * 100, 1) : 0;
-        
-        // Get in progress bugs count
-        $inProgressBugs = Bug::where('status', 'in_progress')->count();
-        
-        // Get bug trend (percentage increase/decrease in last 30 days)
-        $bugsLastMonth = Bug::where('created_at', '<=', now()->subDays(30))->count();
-        $bugsThisMonth = Bug::where('created_at', '>', now()->subDays(30))->count();
-        $bugsTrend = $bugsLastMonth > 0 
-            ? round((($bugsThisMonth - $bugsLastMonth) / $bugsLastMonth) * 100, 1) . '%'
-            : '100%';
-        
-        // Get bugs by priority
-        $priorityLow = Bug::where('priority', 'low')->count();
-        $priorityMedium = Bug::where('priority', 'medium')->count();
-        $priorityHigh = Bug::where('priority', 'high')->count();
-        
-        // Get bugs by status for charts
-        $statusOpen = $openBugs;
-        $statusInProgress = $inProgressBugs;
-        $statusResolved = $resolvedBugs;
-        
-        // Get recent bugs (last 10)
-        $recentBugs = Bug::with('user')
-            ->orderBy('updated_at', 'desc')
-            ->take(10)
-            ->get();
-        
+        // Calculate bug trend (compare to last week)
+        $lastWeekBugs = $userBugs->where('created_at', '>=', now()->subWeek())->count();
+        $previousWeekBugs = $userBugs->where('created_at', '>=', now()->subWeeks(2))
+                                     ->where('created_at', '<', now()->subWeek())
+                                     ->count();
+        $bugsTrend = $lastWeekBugs - $previousWeekBugs;
+
+        // Calculate percentages
+        $openBugsPercent = $totalBugs > 0 ? round(($openBugs / $totalBugs) * 100) : 0;
+        $resolvedBugsPercent = $totalBugs > 0 ? round(($resolvedBugs / $totalBugs) * 100) : 0;
+
+        // Get priority distribution
+        $priorityLow = $userBugs->where('priority', 'low')->count();
+        $priorityMedium = $userBugs->where('priority', 'medium')->count();
+        $priorityHigh = $userBugs->where('priority', 'high')->count();
+
+        // Get status distribution
+        $statusOpen = $userBugs->where('status', 'open')->count();
+        $statusInProgress = $userBugs->where('status', 'in_progress')->count();
+        $statusResolved = $userBugs->where('status', 'resolved')->count();
+
+        // Get recent bugs
+        $recentBugs = $userBugs->sortByDesc('created_at')->take(5);
+
         return view('dashboard', compact(
             'totalBugs',
             'openBugs',
-            'openBugsPercent',
             'resolvedBugs',
-            'resolvedBugsPercent',
             'bugsTrend',
+            'openBugsPercent',
+            'resolvedBugsPercent',
             'priorityLow',
             'priorityMedium',
             'priorityHigh',

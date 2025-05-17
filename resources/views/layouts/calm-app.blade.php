@@ -74,14 +74,25 @@
                                     <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                         {{ __('Profile') }}
                                     </a>
+                                    
+                                    @if(auth()->check() && auth()->user()->role === 'admin')
+                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                            <span data-feather="shield"></span> Admin Dashboard
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('admin.users.index') }}">
+                                            <span data-feather="users"></span> Manage Users
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('admin.bugs') }}">
+                                            <span data-feather="settings"></span> Manage Bugs
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                    @endif
+                                    
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
-                                  
-                                    
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

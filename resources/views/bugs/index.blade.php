@@ -76,16 +76,24 @@
                                         <tbody>
                                             @foreach($bugs as $bug)
                                                 <tr>
-                                                    <td>{{ $bug->title }}</td>
+                                                    <td>
+                                                        {{ $bug->title }}
+                                                        @if($bug->user_id === auth()->id())
+                                                            <span class="badge bg-secondary ms-1">Reported by you</span>
+                                                        @endif
+                                                        @if($bug->assigned_to === auth()->id())
+                                                            <span class="badge bg-warning ms-1">Assigned to you</span>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ Str::limit($bug->description, 50) }}</td>
                                                     <td>
-                                                        <span class="badge badge-{{ strtolower($bug->priority) }}">
+                                                        <span class="badge bg-{{ $bug->priority === 'low' ? 'success' : ($bug->priority === 'medium' ? 'warning' : 'danger') }}">
                                                             {{ ucfirst($bug->priority) }}
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-{{ str_replace(' ', '-', strtolower($bug->status)) }}">
-                                                            {{ ucfirst($bug->status) }}
+                                                        <span class="badge bg-{{ $bug->status === 'open' ? 'primary' : ($bug->status === 'in_progress' ? 'warning' : 'success') }}">
+                                                            {{ ucfirst(str_replace('_', ' ', $bug->status)) }}
                                                         </span>
                                                     </td>
                                                     <td>{{ $bug->user->name }}</td>

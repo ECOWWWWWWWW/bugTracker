@@ -9,6 +9,19 @@ body {
     overflow-y: hidden;
     display: flex;
 }
+.link{
+    text-decoration: none;
+    color: #000;
+    font-size: 13px;
+}
+.link:hover{
+    text-decoration: underline;
+}
+.error{
+    color: #dc2626; /* Tailwind's red-600 */
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
 .container{
     display: flex;
     align-items: center;
