@@ -23,7 +23,12 @@
 
             <div class="form-group">
                 <label for="birthdate" class="form-label">Birth Date</label>
-                <input id="birthdate" type="date" name="birthdate" value="{{ old('birthdate') }}" required>
+                <input id="birthdate" type="date" name="birthdate" 
+                       value="{{ old('birthdate') }}" 
+                       required
+                       max="{{ date('Y-m-d', strtotime('-18 years')) }}"
+                       oninvalid="this.setCustomValidity('You must be at least 18 years old to register')"
+                       oninput="this.setCustomValidity('')">
                 @if ($errors->has('birthdate'))
                     <div class="error">{{ $errors->first('birthdate') }}</div>
                 @endif
